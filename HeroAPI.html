@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="main.css" rel="stylesheet" type="text/css">
+    <title>Hero App</title>
+</head>
+<body>
+    
+     <div class="container">
+    
+      <header class="header">
+        <h1> SuperHero List</h1>
+        <p> Filter superhero based on the list below </p>
+      </header>
+
+        <div class="search-filter-component">
+          <h2> PowerStats</h2>
+           <div class="attribute">
+            <input type="checkbox" name="Intelligence" id="Intelligence"> <label> Intelligence</label>
+           </div>
+
+           <div class="attribute">
+            <input type="checkbox" name="Strength" id="Strength"> <label> Strength</label>
+           </div>
+
+           <div class="attribute">
+            <input type="checkbox" name="Speed" id="Speed"> <label>Speed</label>
+           </div>
+
+           <div class="attribute">
+            <input type="checkbox" name="Durability" id="Durability"> <label> Durability</label>
+           </div>
+
+           <div class="attribute">
+            <input type="checkbox" name="Power" id="Power"> <label>Power</label>
+           </div>
+
+           <div class="attribute">
+            <input type="checkbox" name="Combat" id="Combat"> <label> Combat</label>
+           </div>
+         
+       </div>
+
+       <div class="container-hero-cards">
+        
+       </div>
+
+</div>
+  
+
+
+    
+    <script>
+      const btn = document.querySelector("button");
+
+     const loadHeroes = () => {
+         
+         fetch("https://superheroapi.com/api/2339055509572901/1/image")
+         .then((response)=> response.json())
+         .then((data)=> {
+         const imagen = document.createElement("img");
+         imagen.src=`${data.url}`
+         
+         document.body.appendChild(imagen);
+         })
+     }
+
+      //btn.addEventListener("click",loadHeroes);
+    </script>
+</body>
+</html>
