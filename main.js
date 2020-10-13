@@ -22,87 +22,76 @@ const loadHeroes = () => {
 		
 	}
 
-function filterHeroes(e)
-{
+function filterHeroes(e) {
 	const arrayCheckboxes = Array.from(document.querySelectorAll("input"));
 	const checkboxes = arrayCheckboxes.filter(checkbox => checkbox.checked);
-	 let arrayHero = [];
-	 let arrayImage = [];
+	let arrayHero = [];
 	 
-	 containerHero.innerHTML = " ";
-	checkboxes.forEach(checkbox=>{
+	containerHero.innerHTML = " ";
+	checkboxes.forEach(checkbox => {
 	 
 	
 		fetch("https://api.opendota.com/api/heroes")
-	  .then((response)=> response.json())
-	  .then((data)=> {
+			.then((response) => response.json())
+			.then((data) => {
 		
-		data.forEach(element=>{
+				data.forEach(element => {
 			
-			if(element.primary_attr===checkbox.id)
-			{
-				const heroObj = {
-				   name:element.name,
-				   id:element.id,
-				   primaryAttribute: element.primary_attr
-				};
-				arrayHero.push(heroObj);
-			}
+					if (element.primary_attr === checkbox.id) {
+						const heroObj = {
+							name: element.name,
+							id: element.id,
+							primaryAttribute: element.primary_attr,
+							image: " "
+						};
+						arrayHero.push(heroObj);
+					}
 			
-		  })
+				})
 		  
-		   addImageToHero(arrayHero); 
-		  arrayHero.forEach(hero=>{
-			//<img src="https://api.opendota.com${d.img}"
+				fetch("https://api.opendota.com/api/heroStats")
+					.then((response) => response.json())
+					.then((data) => {
+						data.forEach(element => {
+			
+							for (let i = 0; i < arrayHero.length; i++) {
+								if (element.id === arrayHero[i].id) {
+									arrayHero[i].image = element.img;
+
+									break;
+								}
+							}
+			
+						})
+						arrayHero.forEach(hero => {
+							//<img src="https://api.opendota.com${d.img}"
 								 
-				 const heroCard = document.createElement("div");
-				heroCard.classList.add("hero-card");
-				heroCard.innerHTML = `
+							console.log(hero);
+							const heroCard = document.createElement("div");
+							heroCard.classList.add("hero-card");
+							heroCard.innerHTML = `
+								  <img src="https://api.opendota.com${hero.image}"
 									<h2>${hero.name} </h2>
 								   <p> ID:${hero.id} </p>
 								   <p> ${hero.primaryAttribute}</p>
 								  `
 	
-			containerHero.appendChild(heroCard);  
-			  })
-		}) 
+							containerHero.appendChild(heroCard);
+						})
+					})
+		
+			})
+		 
+		 
 		  
 		
 		 
 		 
 
-})
+	})
 }
 
- function addImageToHero(arrayHero)
-{
-	let index = 0;
-	//console.log(arrayHero);
-	fetch("https://api.opendota.com/api/heroStats")
-	.then((response)=> response.json())
-	.then((data)=> {
-		data.forEach(element=>{
-			
-			if(arrayHero.indexof)
-			{
-				console.log(true);
-				console.log(`element from API ${element.id}`)
-				console.log(`element from Array hero ${arrayHero[index].id}`)
-			}
-			else
-			{
-				console.log("false");
-			}
-			/*  if(element.id===arrayHero[index].name)
-			{
-				console.log("equal");
-			}
-			index++;  */
-			index++;
-			
-		})
-	})
-} 
 
+ 
 window.addEventListener("load", loadHeroes);
 filterComponent.addEventListener("change",filterHeroes);
