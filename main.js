@@ -11,13 +11,11 @@ const loadHeroes = () => {
 			const heroCard = document.createElement("div");
 			heroCard.classList.add("hero-card");
 			heroCard.innerHTML = ` <img src="https://api.opendota.com${element.img}">
-									<h2>${element.name} </h2>
+				 					<h2>${element.name} </h2>
 								   <p> ID:${element.id} </p>
 								  `
-
 			containerHero.appendChild(heroCard); 
-			});
-			
+			}); 
 		})
 		
 	}
@@ -30,7 +28,6 @@ function filterHeroes(e) {
 	containerHero.innerHTML = " ";
 	checkboxes.forEach(checkbox => {
 	 
-	
 		fetch("https://api.opendota.com/api/heroes")
 			.then((response) => response.json())
 			.then((data) => {
@@ -48,8 +45,20 @@ function filterHeroes(e) {
 					}
 			
 				})
+
+				addHeroes(arrayHero);
 		  
-				fetch("https://api.opendota.com/api/heroStats")
+			})	 
+
+	})
+}
+
+function addHeroes(arrayHero)
+{
+	arrayHero = addImageToHeroes(arrayHero);
+	console.log(arrayHero);
+	
+	/*  fetch("https://api.opendota.com/api/heroStats")
 					.then((response) => response.json())
 					.then((data) => {
 						data.forEach(element => {
@@ -62,11 +71,9 @@ function filterHeroes(e) {
 								}
 							}
 			
-						})
-						arrayHero.forEach(hero => {
-							//<img src="https://api.opendota.com${d.img}"
-								 
-							console.log(hero);
+						}) */
+						 arrayHero.forEach(hero => {
+					
 							const heroCard = document.createElement("div");
 							heroCard.classList.add("hero-card");
 							heroCard.innerHTML = `
@@ -78,19 +85,32 @@ function filterHeroes(e) {
 	
 							containerHero.appendChild(heroCard);
 						})
-					})
-		
-			})
-		 
-		 
-		  
-		
-		 
-		 
-
-	})
+					
 }
 
+function addImageToHeroes(arrayHero)
+{
+
+	let arrayHeroCopy = arrayHero;
+	
+	 fetch("https://api.opendota.com/api/heroStats")
+		.then((response) => response.json())
+		.then((data) => {
+			data.forEach(element => {
+			
+				for (let i = 0; i < arrayHeroCopy.length; i++) {
+					if (element.id === arrayHeroCopy[i].id) {
+						arrayHeroCopy[i].image = element.img;
+
+						break;
+					}
+				}
+			
+			})
+			
+		})
+	return arrayHeroCopy;
+}
 
  
 window.addEventListener("load", loadHeroes);
