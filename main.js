@@ -53,64 +53,38 @@ function filterHeroes(e) {
 	})
 }
 
-function addHeroes(arrayHero)
-{
-	arrayHero = addImageToHeroes(arrayHero);
-	console.log(arrayHero);
+function addHeroes(arrayHero) {
 	
-	/*  fetch("https://api.opendota.com/api/heroStats")
-					.then((response) => response.json())
-					.then((data) => {
-						data.forEach(element => {
-			
-							for (let i = 0; i < arrayHero.length; i++) {
-								if (element.id === arrayHero[i].id) {
-									arrayHero[i].image = element.img;
-
-									break;
-								}
-							}
-			
-						}) */
-						 arrayHero.forEach(hero => {
-					
-							const heroCard = document.createElement("div");
-							heroCard.classList.add("hero-card");
-							heroCard.innerHTML = `
-								  <img src="https://api.opendota.com${hero.image}"
-									<h2>${hero.name} </h2>
-								   <p> ID:${hero.id} </p>
-								   <p> ${hero.primaryAttribute}</p>
-								  `
-	
-							containerHero.appendChild(heroCard);
-						})
-					
-}
-
-function addImageToHeroes(arrayHero)
-{
-
-	let arrayHeroCopy = arrayHero;
-	
-	 fetch("https://api.opendota.com/api/heroStats")
+	fetch("https://api.opendota.com/api/heroStats")
 		.then((response) => response.json())
 		.then((data) => {
 			data.forEach(element => {
 			
-				for (let i = 0; i < arrayHeroCopy.length; i++) {
-					if (element.id === arrayHeroCopy[i].id) {
-						arrayHeroCopy[i].image = element.img;
+				for (let i = 0; i < arrayHero.length; i++) {
+					if (element.id === arrayHero[i].id) {
+						arrayHero[i].image = element.img;
 
 						break;
 					}
 				}
 			
 			})
-			
+			arrayHero.forEach(hero => {
+				const heroCard = document.createElement("div");
+				heroCard.classList.add("hero-card");
+				heroCard.innerHTML = `
+								  <img src="https://api.opendota.com${hero.image}">
+									<h2>${hero.name} </h2>
+								   <p> ID:${hero.id} </p>
+								   <p> ${hero.primaryAttribute}</p>
+								  `
+	
+				containerHero.appendChild(heroCard);
+			})
+					
 		})
-	return arrayHeroCopy;
-}
+				}
+
 
  
 window.addEventListener("load", loadHeroes);
